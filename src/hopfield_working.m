@@ -1,10 +1,3 @@
-#
-# Self-organizing map
-#
-# Sergio Garcia Prado
-# garciparedes.me
-#
-
 function s = hopfield_working(w,s)
     for index = 1:size(s,1);
         do;

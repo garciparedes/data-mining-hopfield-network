@@ -21,6 +21,10 @@
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\small\itshape}
 
+\usepackage{minted}
+\usepackage{float}
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+
 
 \usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
@@ -39,7 +43,7 @@
 %	TITLE SECTION
 %-------------------------------------------------------------------------------
 
-\title{\vspace{-15mm}\fontsize{24pt}{10pt}\selectfont\textbf{Red de Hopfield}} 
+\title{\vspace{-15mm}\fontsize{24pt}{10pt}\selectfont\textbf{Red de Hopfield}}
 
 \author{García Prado, Sergio}
 \date{\today}
@@ -66,9 +70,9 @@
 %-------------------------------------------------------------------------------
 
 
-    \section{Introducción}
+  \section{Introducción}
 
-        \paragraph{}
+    \paragraph{}
 		Las redes de Hopfield son tipo de redes neuronales recurrente incialmente desarrolladas por John Hopfield. Estas redes son usadas como sistemas de Memoria asociativa con unidades binarias. Están diseñadas para converger a un mínimo local, a pesar de ello, la convergencia a uno de los patrones almacenados no está garantizada.
 
 		\paragraph{}
@@ -79,10 +83,27 @@
 
 		\paragraph{}
 
+		\begin{figure}[H]
+			\centering
+			\inputminted{octave}{../src/main.m}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\inputminted{octave}{../src/hopfield_learning.m}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\inputminted{octave}{../src/hopfield_working.m}
+		\end{figure}
 
 	\section{Resultados}
 
 		\paragraph{}
-
+		\begin{figure}[H]
+			\centering
+			\inputminted{bash}{../output.txt}
+		\end{figure}
 
 \end{document}

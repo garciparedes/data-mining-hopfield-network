@@ -1,10 +1,3 @@
-#
-# Self-organizing map
-#
-# Sergio Garcia Prado
-# garciparedes.me
-#
-
 function w = hopfield_learning(x_p)
   w = zeros(size(x_p,2),size(x_p,2));
   for i = 1:size(w,1);
