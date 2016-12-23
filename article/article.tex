@@ -97,6 +97,14 @@
 		\paragraph{}
 		Tal y como se muestra en el código de la figura \ref{code:main}, primero inicializamos las matrices encargadas de alojar tanto los vectores que posteriormente serán utilizados como patrones como los que son utilizados como casos de prueba. Posteriormente se inicializa la matriz $W$ encargada de almacenar los patrones tal y como se explicará a continuación. Finalmente se calcula el resultado (vector más cercano entre los patrones por cada entrada).
 
+		\begin{equation}
+		\overline{X}(i) = [x_1(i), x_2(i), ..., x_j(i), ..., x_n(i)], x_j(i) \in \{1,-1\} i \in (1,2,.., r),
+		\end{equation}
+
+		\begin{equation}
+			\overline{XP}(k) = [xp_1(k), xp_2(k), ..., xp_j(k), ..., xp_n(k)], xp_j(j) \in \{1,-1\}, k \in (1,2,...p),
+		\end{equation}
+
 		\begin{figure}[H]
 			\centering
 			\inputminted{octave}{../src/hopfield_learning.m}
@@ -105,6 +113,11 @@
 		\end{figure}
 
 		\paragraph{}
+		El proceso de rellenado de la matrix $W$ en la cual se almacenan los patrones enseñados en la fase de aprencizaje se puede modelizar matemáticamente de la siguiente manera:
+
+		\begin{equation}
+			w_{ij} = \sum_{k=1}^{p} x_i(k)x_j(k), \forall i \neq j; w_{ii} = 0
+		\end{equation}
 
 		\begin{figure}[H]
 			\centering
@@ -114,11 +127,32 @@
 		\end{figure}
 
 		\paragraph{}
+		El proceso de reconocimiento de patrones se realiza de manera recurrente aplicando la funcion $s$ definida de la siguiente manera:
+
+		\begin{equation}
+		 \begin{cases}
+      	s_i(t) = x_i & t = 0 \\
+      	s_i(t+1) = sgn(\sum_{j=1}^{n} w_{ij}x_{j}(k) - u_{i}) & t \neq 0 \\
+   		\end{cases}
+		\end{equation}
+
+		\begin{equation}
+			sgn(x) =
+			\begin{cases}
+				+1 & x > 0 \\
+				-1 & x < 0
+			\end{cases}
+		\end{equation}
+
+		\paragraph{}
+		Este proceso se repite indefinidamente hasta que el resultado se mantenga constante, es decir, $s_i(t+1) = s_i(t)$. Entonces se ha encontrado el patrón más cercano a dicha entrada.
 
 
 	\section{Resultados}
 
 		\paragraph{}
+		Los resultados obtenidos para una ejecucción concreta con las entradas $x$ y $x_p$ se muestran en la figura \ref{results}.
+
 		\begin{figure}[H]
 			\centering
 			\inputminted{bash}{../output.txt}
