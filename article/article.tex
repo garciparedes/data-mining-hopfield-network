@@ -73,30 +73,48 @@
   \section{Introducción}
 
     \paragraph{}
-		Las redes de Hopfield son tipo de redes neuronales recurrente incialmente desarrolladas por John Hopfield. Estas redes son usadas como sistemas de Memoria asociativa con unidades binarias. Están diseñadas para converger a un mínimo local, a pesar de ello, la convergencia a uno de los patrones almacenados no está garantizada.
+		Las redes de Hopfield son un tipo de redes neuronales recurrente inicialmente desarrolladas por John Hopfield. Estas redes son usadas como sistemas de Memoria asociativa con unidades binarias y están diseñadas para converger a un mínimo local. A pesar de ello, la convergencia a alguno de los patrones almacenados no está garantizada.
 
 		\paragraph{}
 		Las unidades de las redes Hopfield son binarias, es decir, solo tienen dos valores posibles para sus estados (Esto se consigue a partir del uso de una función signo). El valor se determina si las unidades superan o no un determinado umbral. Los valores posibles pueden ser 1 ó -1,
+
+		\paragraph{}
+		Como caso de prueba se ha realizado lo siguiente: Utilizando como modelo mental un cubo, se pretende introducir dos vértices opuestos del mismo, que serán utilizados como los patrones que se quieren reconocer a partir de pequeñas variaciones de los mismos. Estas pequeñas variaciones son el resto de vértices del cubo. La red de Hopfield obtendrá como resultado en cada caso, el patrón más próximo por cada entrada dada.
 
 
 	\section{Implementación}
 
 		\paragraph{}
+		La implementación del algoritmo, así como su prueba se ha realizado en el lenguage Octave (debido a las facilidad y simplicidad que ofrece cuando se codifican cálculos matemáticos). A continuación se describen cada una de las 3 partes en las cuales se ha dividido la implementación: La primera de ellas consiste en un fichero de control de entrada y ejecución (Main), mientras que la segunda y la tercera formar el propio algoritmo, correspondiendose la primera fase del mismo al periodo de aprendizaje de patrones y la segunda a la clasificación de entradas.
 
 		\begin{figure}[H]
 			\centering
 			\inputminted{octave}{../src/main.m}
+			\caption{Octave: main.m}
+			\label{code:main}
 		\end{figure}
+
+		\paragraph{}
+		Tal y como se muestra en el código de la figura \ref{code:main}, primero inicializamos las matrices encargadas de alojar tanto los vectores que posteriormente serán utilizados como patrones como los que son utilizados como casos de prueba. Posteriormente se inicializa la matriz $W$ encargada de almacenar los patrones tal y como se explicará a continuación. Finalmente se calcula el resultado (vector más cercano entre los patrones por cada entrada).
 
 		\begin{figure}[H]
 			\centering
 			\inputminted{octave}{../src/hopfield_learning.m}
+			\caption{Octave: hopfield\_learning.m}
+			\label{code:learning}
 		\end{figure}
+
+		\paragraph{}
 
 		\begin{figure}[H]
 			\centering
 			\inputminted{octave}{../src/hopfield_working.m}
+			\caption{Octave: hopfield\_working.m}
+			\label{code:working}
 		\end{figure}
+
+		\paragraph{}
+
 
 	\section{Resultados}
 
@@ -104,6 +122,9 @@
 		\begin{figure}[H]
 			\centering
 			\inputminted{bash}{../output.txt}
+			\caption{Resultados obtenidos}
+			\label{results}
+
 		\end{figure}
 
 \end{document}
