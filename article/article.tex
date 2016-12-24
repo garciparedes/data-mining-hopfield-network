@@ -60,19 +60,19 @@
   \section{Introducción}
 
     \paragraph{}
-		Las redes de Hopfield son un tipo de redes neuronales recurrente inicialmente desarrolladas por John Hopfield. Estas redes son usadas como sistemas de Memoria asociativa con unidades binarias y están diseñadas para converger a un mínimo local. A pesar de ello, la convergencia a alguno de los patrones almacenados no está garantizada.
+		Las redes de Hopfield son un tipo de redes neuronales recurrentes inicialmente desarrolladas por John Hopfield. Estas redes son usadas como sistemas de Memoria asociativa con unidades binarias y están diseñadas para converger a un mínimo local. A pesar de ello, la convergencia a alguno de los patrones almacenados no está garantizada.
 
 		\paragraph{}
 		Las unidades de las redes Hopfield son binarias, es decir, solo tienen dos valores posibles para sus estados (Esto se consigue a partir del uso de una función signo). El valor se determina si las unidades superan o no un determinado umbral. Los valores posibles pueden ser 1 ó -1,
 
 		\paragraph{}
-		Como caso de prueba, se ha realizado lo siguiente: Utilizando como modelo mental un cubo, se pretende introducir dos vértices opuestos del mismo, que serán utilizados como patrones que se pretenden reconocer a partir de pequeñas variaciones (el resto de vértices). La red de Hopfield obtendrá como resultado en cada caso, el patrón más próximo a cada entrada,
+		Como caso de prueba, se ha realizado lo siguiente: Utilizando como modelo mental un cubo, se pretende introducir dos vértices opuestos del mismo, que serán utilizados como patrones a memorizar para después ser reconocidos a partir de pequeñas variaciones (resto de vértices). La red de Hopfield obtendrá como resultado el patrón más próximo a cada entrada.
 
 
 	\section{Implementación}
 
 		\paragraph{}
-		La implementación del algoritmo, así como su prueba, se han realizado en el lenguage Octave (debido a las facilidad y simplicidad que ofrece cuando se codifican cálculos matemáticos). A continuación se describen cada una de las 3 partes en que se ha dividido la implementación: La primera de ellas consiste en un fichero \emph{main}, mientras que la segunda y la tercera forman el propio algoritmo, correspondiendose la primera fase al periodo de aprendizaje de patrones y la segunda a la clasificación de entradas.
+		La implementación del algoritmo, se han realizado en el lenguage Octave (debido a la facilidad y simplicidad que ofrece cuando se codifican expresiones matemáticas). A continuación se describen cada una de las partes en que se ha dividido la implementación: La primera de ellas consiste en un fichero \emph{main}, mientras que la segunda y la tercera forman propiamente el algoritmo, correspondiendose la primera fase al periodo de aprendizaje de patrones y la segunda a la clasificación de entradas.
 
 		\begin{figure}[htpb!]
 			\centering
@@ -90,7 +90,7 @@
 		\end{equation}
 
 		\paragraph{}
-		Tal y como se muestra en el código de la figura \ref{code:main}, primero definimos tanto la matriz que representan los  vectores que posteriormente serán utilizados como patrones como la que representa las entradas a clasificar. Estas matrices se pueden representar matemáticamente tal y como se indica en las fórmulas \ref{eq:1} y \ref{eq:2}.  Posteriormente se inicializa la matriz $W$ encargada de almacenar los patrones, tal y como se explicará a continuación. Finalmente se calcula el resultado (vector más cercano entre los patrones por cada entrada).
+		Tal y como se muestra en el código de la figura \ref{code:main}, primero definimos tanto la matriz que representa los  vectores que posteriormente serán utilizados como patrones como la que representa las entradas a clasificar. Estas matrices se pueden representar matemáticamente tal y como se indica en las fórmulas \ref{eq:1} y \ref{eq:2}.  Posteriormente se define la matriz $W$, encargada de almacenar los patrones, tal y como se explicará a continuación. Finalmente se calcula el resultado ($S$) (patrón más cercano a la entrada).
 
 		\begin{figure}[htpb!]
 			\centering
@@ -118,7 +118,7 @@
 		\end{figure}
 
 		\paragraph{}
-		El proceso de reconocimiento de patrones se realiza de manera recurrente, aplicando la función $S$ definida de la matemáticamente en la ecuación \ref{eq:4} (Notese que $u_{i}$ es una constante de ajuste, en la implementación realizada toma el valor $0$ por lo que se ha obviado).
+		El proceso de reconocimiento de patrones se realiza a partir de una ecuación de recurrencia, aplicando $S$ definida matemáticamente tal y como se indica en la ecuaci \ref{eq:4} (Notese que $u_{i}$ es una constante de ajuste, que en la implementación realizada toma el valor $0$, por lo que se ha obviado).
 
 		\begin{equation} \label{eq:4}
 		 	s_i(t) =
@@ -135,19 +135,19 @@
 			sgn(x) =
 			\begin{cases}
 				+1 & x > 0 \\
-				-1 & x < 0
+				-1 & x < 0 \\
 			\end{cases}
 		\end{equation}
 
 		\paragraph{}
-		Este proceso se repite indefinidamente hasta que el resultado converja hacia un valor concreto. Dicho de otra manera, mientras se cumpla la condición de la equación \ref{eq:6}.
+		Este proceso se repite indefinidamente hasta que el resultado converge hacia un valor concreto. Dicho de otra manera, mientras se cumpla la condición de la equación \ref{eq:6}.
 
 		\begin{equation} \label{eq:6}
 			s_i(t+1) \neq s_i(t)
 		\end{equation}
 
 		\paragraph{}
-		Una vez se llega a un valor constante, el proceso termina y el patrón debería haber sido reconocido. El método de Hopfield no asegura la convergencia hacia un patrón, sin embargo, esto si que está asegurado cuando los patrones enseñados en el periodo de aprendizaje son opuestos entre si.
+		Una vez se llega a un valor constante, el proceso termina y el patrón debería haber sido reconocido. El método de Hopfield no asegura la convergencia hacia un patrón almacenado, sin embargo, esto si que sucede cuando los patrones enseñados en el periodo de aprendizaje son opuestos entre si.
 
 
 	\section{Resultados}
