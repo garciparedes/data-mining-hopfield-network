@@ -1,9 +1,9 @@
-function w = hopfield_learning(x_p)
-  w = zeros(size(x_p,2),size(x_p,2));
-  for i = 1:size(w,1);
-    for j = 1:size(w,2);
+function W = hopfield_learning(P)
+  W = zeros(size(P,2),size(P,2));
+  for i = 1:size(W,1);
+    for j = 1:size(W,2);
       if(i ~= j);
-        w(i,j) = sum(x_p(:,i) .* x_p(:,j));
+        W(i,j) = sum(P(:,i) .* P(:,j));
       endif;
     endfor;
   endfor;

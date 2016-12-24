@@ -16,11 +16,6 @@
 \graphicspath{ {images/} }
 
 
-
-\usepackage{abstract}
-\renewcommand{\abstractnamefont}{\normalfont\bfseries}
-\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
-
 \usepackage{minted}
 \usepackage{float}
 \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
@@ -58,14 +53,6 @@
 
 
 %-------------------------------------------------------------------------------
-%	ABSTRACT
-%-------------------------------------------------------------------------------
-
-	\begin{abstract}
-		\noindent Implementación de un ejemplo simple de una red de Hopfield diseñada para obtener el punto más cercano de entre dos dados previamente a una estructura en forma de forma de cubo.
-	\end{abstract}
-
-%-------------------------------------------------------------------------------
 %	TEXT
 %-------------------------------------------------------------------------------
 
@@ -79,47 +66,51 @@
 		Las unidades de las redes Hopfield son binarias, es decir, solo tienen dos valores posibles para sus estados (Esto se consigue a partir del uso de una función signo). El valor se determina si las unidades superan o no un determinado umbral. Los valores posibles pueden ser 1 ó -1,
 
 		\paragraph{}
-		Como caso de prueba se ha realizado lo siguiente: Utilizando como modelo mental un cubo, se pretende introducir dos vértices opuestos del mismo, que serán utilizados como los patrones que se quieren reconocer a partir de pequeñas variaciones de los mismos. Estas pequeñas variaciones son el resto de vértices del cubo. La red de Hopfield obtendrá como resultado en cada caso, el patrón más próximo por cada entrada dada.
+		Como caso de prueba, se ha realizado lo siguiente: Utilizando como modelo mental un cubo, se pretende introducir dos vértices opuestos del mismo, que serán utilizados como patrones que se pretenden reconocer a partir de pequeñas variaciones (el resto de vértices). La red de Hopfield obtendrá como resultado en cada caso, el patrón más próximo a cada entrada,
 
 
 	\section{Implementación}
 
 		\paragraph{}
-		La implementación del algoritmo, así como su prueba se ha realizado en el lenguage Octave (debido a las facilidad y simplicidad que ofrece cuando se codifican cálculos matemáticos). A continuación se describen cada una de las 3 partes en las cuales se ha dividido la implementación: La primera de ellas consiste en un fichero de control de entrada y ejecución (Main), mientras que la segunda y la tercera formar el propio algoritmo, correspondiendose la primera fase del mismo al periodo de aprendizaje de patrones y la segunda a la clasificación de entradas.
+		La implementación del algoritmo, así como su prueba, se han realizado en el lenguage Octave (debido a las facilidad y simplicidad que ofrece cuando se codifican cálculos matemáticos). A continuación se describen cada una de las 3 partes en que se ha dividido la implementación: La primera de ellas consiste en un fichero \emph{main}, mientras que la segunda y la tercera forman el propio algoritmo, correspondiendose la primera fase al periodo de aprendizaje de patrones y la segunda a la clasificación de entradas.
 
-		\begin{figure}[H]
+		\begin{figure}[htpb!]
 			\centering
 			\inputminted{octave}{../src/main.m}
 			\caption{Octave: main.m}
 			\label{code:main}
 		\end{figure}
 
+		\begin{equation} \label{eq:1}
+			\overline{X_{i}} = [x_{i1}, x_{i2}, ..., x_{ij}, ..., x_{in}], x_{ij} \in \{1,-1\} i \in (1,2,.., r),
+		\end{equation}
+
+		\begin{equation} \label{eq:2}
+			\overline{P_{k}} = [p_{k1}, p_{k2}, ..., p_{kj}, ..., p_{kn}], p_{kj} \in \{1,-1\}, k \in (1,2,...s),
+		\end{equation}
+
 		\paragraph{}
-		Tal y como se muestra en el código de la figura \ref{code:main}, primero inicializamos las matrices encargadas de alojar tanto los vectores que posteriormente serán utilizados como patrones como los que son utilizados como casos de prueba. Posteriormente se inicializa la matriz $W$ encargada de almacenar los patrones tal y como se explicará a continuación. Finalmente se calcula el resultado (vector más cercano entre los patrones por cada entrada).
+		Tal y como se muestra en el código de la figura \ref{code:main}, primero definimos tanto la matriz que representan los  vectores que posteriormente serán utilizados como patrones como la que representa las entradas a clasificar. Estas matrices se pueden representar matemáticamente tal y como se indica en las fórmulas \ref{eq:1} y \ref{eq:2}.  Posteriormente se inicializa la matriz $W$ encargada de almacenar los patrones, tal y como se explicará a continuación. Finalmente se calcula el resultado (vector más cercano entre los patrones por cada entrada).
 
-		\begin{equation}
-		\overline{X}(i) = [x_1(i), x_2(i), ..., x_j(i), ..., x_n(i)], x_j(i) \in \{1,-1\} i \in (1,2,.., r),
-		\end{equation}
-
-		\begin{equation}
-			\overline{XP}(k) = [xp_1(k), xp_2(k), ..., xp_j(k), ..., xp_n(k)], xp_j(j) \in \{1,-1\}, k \in (1,2,...p),
-		\end{equation}
-
-		\begin{figure}[H]
+		\begin{figure}[htpb!]
 			\centering
 			\inputminted{octave}{../src/hopfield_learning.m}
 			\caption{Octave: hopfield\_learning.m}
 			\label{code:learning}
 		\end{figure}
 
-		\paragraph{}
-		El proceso de rellenado de la matrix $W$ en la cual se almacenan los patrones enseñados en la fase de aprencizaje se puede modelizar matemáticamente de la siguiente manera:
-
-		\begin{equation}
-			w_{ij} = \sum_{k=1}^{p} x_i(k)x_j(k), \forall i \neq j; w_{ii} = 0
+		\begin{equation} \label{eq:3}
+			w_{ij} =
+			\begin{cases}
+				\sum_{k=1}^{s} p_{ki}p_{kj} 	& \forall i \neq j; 	\\
+				0															& \forall i = j; 		\\
+			\end{cases}
 		\end{equation}
 
-		\begin{figure}[H]
+		\paragraph{}
+		El proceso de rellenado de la matrix $W$, en la cual se almacenan los patrones enseñados en la fase de aprendizaje, se puede modelizar matemáticamente tal y como se indica en la ecuación \ref{eq:3}.
+
+		\begin{figure}[htpb!]
 			\centering
 			\inputminted{octave}{../src/hopfield_working.m}
 			\caption{Octave: hopfield\_working.m}
@@ -127,16 +118,20 @@
 		\end{figure}
 
 		\paragraph{}
-		El proceso de reconocimiento de patrones se realiza de manera recurrente aplicando la funcion $s$ definida de la siguiente manera:
+		El proceso de reconocimiento de patrones se realiza de manera recurrente, aplicando la función $S$ definida de la matemáticamente en la ecuación \ref{eq:4} (Notese que $u_{i}$ es una constante de ajuste, en la implementación realizada toma el valor $0$ por lo que se ha obviado).
 
-		\begin{equation}
-		 \begin{cases}
-      	s_i(t) = x_i & t = 0 \\
-      	s_i(t+1) = sgn(\sum_{j=1}^{n} w_{ij}x_{j}(k) - u_{i}) & t \neq 0 \\
+		\begin{equation} \label{eq:4}
+		 	s_i(t) =
+		 	\begin{cases}
+      	x_i 																					& t = 0 		\\
+      	sgn(\sum_{j=1}^{n} w_{ij}s_{j}(t-1) - u_{i}) 	& t \neq 0 	\\
    		\end{cases}
 		\end{equation}
 
-		\begin{equation}
+		\paragraph{}
+		La función signo ($sgn(x)$) se define en la ecuación \ref{eq:5}. Como aclaración, para $x = 0$ esta función no toma ningún valor, por lo que se mantiene el valor de la iteración anterior.
+
+		\begin{equation} \label{eq:5}
 			sgn(x) =
 			\begin{cases}
 				+1 & x > 0 \\
@@ -145,20 +140,26 @@
 		\end{equation}
 
 		\paragraph{}
-		Este proceso se repite indefinidamente hasta que el resultado se mantenga constante, es decir, $s_i(t+1) = s_i(t)$. Entonces se ha encontrado el patrón más cercano a dicha entrada.
+		Este proceso se repite indefinidamente hasta que el resultado converja hacia un valor concreto. Dicho de otra manera, mientras se cumpla la condición de la equación \ref{eq:6}.
+
+		\begin{equation} \label{eq:6}
+			s_i(t+1) \neq s_i(t)
+		\end{equation}
+
+		\paragraph{}
+		Una vez se llega a un valor constante, el proceso termina y el patrón debería haber sido reconocido. El método de Hopfield no asegura la convergencia hacia un patrón, sin embargo, esto si que está asegurado cuando los patrones enseñados en el periodo de aprendizaje son opuestos entre si.
 
 
 	\section{Resultados}
 
 		\paragraph{}
-		Los resultados obtenidos para una ejecucción concreta con las entradas $x$ y $x_p$ se muestran en la figura \ref{results}.
+		Los resultados obtenidos para una ejecucción concreta con las entradas $x$ y $x_p$ se muestran en la figura \ref{results}. Tal y como se puede apreciar en el resultado (matriz $S$), los vectores de la entrada $X$ se aproximan al patrón almacenado más cercano en cada caso.
 
-		\begin{figure}[H]
+		\begin{figure}[htpb!]
 			\centering
 			\inputminted{bash}{../output.txt}
 			\caption{Resultados obtenidos}
 			\label{results}
-
 		\end{figure}
 
 \end{document}
